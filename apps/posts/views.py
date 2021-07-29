@@ -28,8 +28,15 @@ class PostViewSet(ModelViewSet):
 
     def initial(self, request, *args, **kwargs):
         api_response = get_all_post_from_api()
-        print(api_response)
+        if api_response is not None and self.get_queryset().count() == 0: 
+            serialized  =  PostSerializer(data=api_response, many=True)
+            serialized.is_valid(raise_exception=True)
+            serialized.save()
         return super().initial( request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        return Response("Todo perfecto",status.HTTP_200_OK)
+        queryset = self.get_queryset()
+        posts = self.get_serializer(queryset, many=True)
+        data = posts.data
+        return Response(data,status.HTTP_200_OK)
+
