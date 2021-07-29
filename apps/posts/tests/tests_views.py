@@ -2,6 +2,7 @@ from rest_framework import status
 
 from apps.posts.tests.test_setup import TestSetup
 
+
 class TestPostsViews(TestSetup):
 
     def test_get_all_posts(self):
