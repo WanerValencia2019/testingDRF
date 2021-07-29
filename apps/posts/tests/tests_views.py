@@ -1,10 +1,8 @@
 from rest_framework import status
 
-from apps.posts.models import Post
-
 from apps.posts.tests.test_setup import TestSetup
 
-class TestView(TestSetup):
+class TestPostsViews(TestSetup):
 
     def test_get_all_posts(self):
         response = self.client.get(self.all_posts_url)
