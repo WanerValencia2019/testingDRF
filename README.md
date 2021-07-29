@@ -12,4 +12,4 @@
 
 ## RUN TESTS
 
-`python manage.py tests apps/posts/tests/`
+`python manage.py test apps/posts/tests/`
