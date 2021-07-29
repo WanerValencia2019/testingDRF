@@ -22,21 +22,21 @@ from .services import get_all_post_from_api
         return Response("Datos obtenidos", )"""
     
 
+#MODEL VIEWSET Provides each of the http methods that we can implement in a rest api quickly 
+#through a model
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()    
     serializer_class = PostSerializer
 
+    #This method will be executed every time a request is made
     def initial(self, request, *args, **kwargs):
-        api_response = get_all_post_from_api()
+        #Execute the function that will bring us the information from the api        
+        api_response = get_all_post_from_api() #This code snippet has delays due to the amount of information we bring from the API
+        #Evaluate if our posts table has information and also if the api returned data 
         if api_response is not None and self.get_queryset().count() == 0: 
             serialized  =  PostSerializer(data=api_response, many=True)
             serialized.is_valid(raise_exception=True)
             serialized.save()
         return super().initial( request, *args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        posts = self.get_serializer(queryset, many=True)
-        data = posts.data
-        return Response(data,status.HTTP_200_OK)
 
