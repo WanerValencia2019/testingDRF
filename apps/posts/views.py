@@ -33,9 +33,12 @@ class PostViewSet(ModelViewSet):
         #Execute the function that will bring us the information from the api        
         api_response = get_all_post_from_api() #This code snippet has delays due to the amount of information we bring from the API
         #Evaluate if our posts table has information and also if the api returned data 
-        if api_response is not None and self.get_queryset().count() == 0: 
+        if api_response is not None and self.get_queryset().count() == 0:
+            #Pass the information to our serializers and store the information in our database 
             serialized  =  PostSerializer(data=api_response, many=True)
+            #Validate data
             serialized.is_valid(raise_exception=True)
+            #SAVE DATA
             serialized.save()
         return super().initial( request, *args, **kwargs)
 

@@ -34,8 +34,8 @@ class TestPostsViews(TestSetup):
             'title': new_title,
             'body': new_body
         }
-
         response = self.client.put(self.detail_post_url, data, format="json")
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), new_title)
         self.assertEqual(response.data.get('body'), new_body)
